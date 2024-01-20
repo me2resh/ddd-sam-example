@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sam-app-java21
+
+  Sample SAM Template for sam-app-java21
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 20
+    MemorySize: 512
+
+    Tracing: Active
+    # You can add LoggingConfig parameters such as the Logformat, Log Group, and SystemLogLevel or ApplicationLogLevel. Learn more here https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html#sam-function-loggingconfig.
+    LoggingConfig:
+      LogFormat: JSON
+  Api:
+    TracingEnabled: true
+Resources:
+  PatientAppointmentFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./  # Assuming your build artifacts are within the HelloWorldFunction directory
+      Handler: command.lambda.PatientAppointmentLambdaHandler::handleRequest
+      Runtime: java21  # Make sure to use the Java runtime version that corresponds to your development environment
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          PARAM1: VALUE
+      Events:
+        PatientAppointmentApi:
+          Type: Api
+          Properties:
+            Path: /patients/{patientId}/appointments
+            Method: get
+
+  ApplicationResourceGroup:
+    Type: AWS::ResourceGroups::Group
+    Properties:
+      Name:
+        Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
+      ResourceQuery:
+        Type: CLOUDFORMATION_STACK_1_0
+  ApplicationInsightsMonitoring:
+    Type: AWS::ApplicationInsights::Application
+    Properties:
+      ResourceGroupName:
+        Ref: ApplicationResourceGroup
+      AutoConfigurationEnabled: 'true'
+Outputs:
+  PatientAppointmentApi:
+    Description: API Gateway endpoint URL for Prod stage for Patient Appointment function
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/patients/{patientId}/appointments/"
+  PatientAppointmentFunction:
+    Description: Patient Appointment Lambda Function ARN
+    Value: !GetAtt PatientAppointmentFunction.Arn
+  PatientAppointmentFunctionIamRole:
+    Description: Implicit IAM Role created for Patient Appointment function
+    Value: !GetAtt PatientAppointmentFunctionRole.Arn
