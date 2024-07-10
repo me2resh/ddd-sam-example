@@ -5,6 +5,7 @@ This project is a simple REST API application for retrieving patient appointment
 ## Application Directory Structure
 
 The source code for the application resides in the `src` directory:
+```
 
 .
 ├── README.md # Project documentation
@@ -16,15 +17,15 @@ The source code for the application resides in the `src` directory:
 │ ├── infrastructure # Contains infrastructure classes that connect to external services
 │ └── tests # Contains unit tests
 └── template.yaml # AWS SAM template defining AWS resources
-
+```
 
 ## Prerequisites
 
 Before you begin, ensure you have the following software installed on your system:
 
-- Node.js
-- Docker
-- AWS SAM CLI
+-   Node.js
+-   Docker
+-   AWS SAM CLI
 
 ## Setup Instructions
 
@@ -35,12 +36,15 @@ npm install
 ```
 
 ## Run Tests
+
 To run the tests using npm, execute the following command:
 
 ```bash
 npm test
 ```
+
 ## Running SAM Locally
+
 To run the SAM application locally, you need to have the AWS SAM CLI installed. If you haven't installed it yet, follow the official installation guide.
 
 Once you have the SAM CLI installed, navigate to the project's root directory and execute the following command:
@@ -51,12 +55,15 @@ sam local start-api
 ```
 
 ## Invoking APIs for Each User
+
 To invoke the APIs for each user, use the following endpoints:
 
 User1: http://127.0.0.1:3000/patients/user1/appointments
+
 User2: http://127.0.0.1:3000/patients/user2/appointments
 
 ## Deploy to the Cloud
+
 To build and deploy your application to AWS, run the following in your shell:
 
 ```bash
@@ -88,6 +95,7 @@ classDiagram
     Infrastructure --> Domain : uses
     Lambda --> Application : uses
     Lambda --> Infrastructure : uses
-```
-To visualize this diagram, you can use a Mermaid live editor or integrate it into any Markdown viewer that supports Mermaid diagrams.
 
+```
+
+To visualize this diagram, you can use a Mermaid live editor or integrate it into any Markdown viewer that supports Mermaid diagrams.
