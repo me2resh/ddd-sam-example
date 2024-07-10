@@ -18,15 +18,80 @@ Globals:
   Api:
     TracingEnabled: true
 Resources:
-  PatientAppointmentFunction:
+
+Resources:
+
+  PatientsDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Patients
+      AttributeDefinitions:
+        - AttributeName: patientId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: patientId
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+AppointmentsDynamoDBTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: Appointments
+    AttributeDefinitions:
+      - AttributeName: appointmentId
+        AttributeType: S
+      - AttributeName: patientId  # This is assuming you will add patientId as a top-level attribute
+        AttributeType: S
+    KeySchema:
+      - AttributeName: appointmentId
+        KeyType: HASH
+    GlobalSecondaryIndexes:  # Add this section
+      - IndexName: patientId-index
+        KeySchema:
+          - AttributeName: patientId
+            KeyType: HASH
+        Projection:
+          ProjectionType: ALL
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    ProvisionedThroughput:
+      ReadCapacityUnits: 5
+      WriteCapacityUnits: 5
+
+
+  PatientAppointmentDynamoDBFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: command.lambda.PatientAppointmentDynamoDBHandler::handleRequest
+      Runtime: java21
+      Architectures:
+        - x86_64
+      MemorySize: 2048
+      Events:
+        GetAppointments:
+          Type: Api
+          Properties:
+            Path: /dynamodb/patients/{patientId}/appointments
+            Method: get
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref AppointmentsDynamoDBTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PatientsDynamoDBTable
+
+  PatientAppointmentMockFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./  # Assuming your build artifacts are within the HelloWorldFunction directory
-      Handler: command.lambda.PatientAppointmentLambdaHandler::handleRequest
+      Handler: command.lambda.PatientAppointmentMockHandler::handleRequest
       Runtime: java21  # Make sure to use the Java runtime version that corresponds to your development environment
       Architectures:
         - x86_64
-      MemorySize: 512
+      MemorySize: 2048
       Environment:
         Variables:
           PARAM1: VALUE
@@ -34,7 +99,7 @@ Resources:
         PatientAppointmentApi:
           Type: Api
           Properties:
-            Path: /patients/{patientId}/appointments
+            Path: /mock/patients/{patientId}/appointments
             Method: get
 
   ApplicationResourceGroup:
@@ -52,11 +117,11 @@ Resources:
       AutoConfigurationEnabled: 'true'
 Outputs:
   PatientAppointmentApi:
-    Description: API Gateway endpoint URL for Prod stage for Patient Appointment function
+    Description: "API Gateway endpoint URL for Prod stage for Patient Appointment function"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/patients/{patientId}/appointments/"
-  PatientAppointmentFunction:
-    Description: Patient Appointment Lambda Function ARN
-    Value: !GetAtt PatientAppointmentFunction.Arn
-  PatientAppointmentFunctionIamRole:
-    Description: Implicit IAM Role created for Patient Appointment function
-    Value: !GetAtt PatientAppointmentFunctionRole.Arn
+  PatientAppointmentDynamoDBFunction:
+    Description: "Patient Appointment DynamoDB Lambda Function ARN"
+    Value: !GetAtt PatientAppointmentDynamoDBFunction.Arn
+  PatientAppointmentDynamoDBFunctionRole:
+    Description: "Implicit IAM Role created for Patient Appointment DynamoDB function"
+    Value: !GetAtt PatientAppointmentDynamoDBFunctionRole.Arn

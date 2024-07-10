@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Appointment {
     private String id;
     private String status;
-    private Patient subject;
+    private String subject;
     private String start;
     private String end;
 
-    public Appointment(String id, String status, Patient subject, String start, String end){
+    public Appointment(String id, String status, String subject, String start, String end){
         this.id = id;
         this.status = status;
         this.subject = subject;
@@ -24,7 +24,7 @@ public class Appointment {
         return this.status;
     }
 
-    public Patient getSubject() {
+    public String getSubject() {
         return this.subject;
     }
 

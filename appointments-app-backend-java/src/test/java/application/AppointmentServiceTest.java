@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import application.service.AppointmentService;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,10 +31,9 @@ public class AppointmentServiceTest {
     public void getAppointmentsByPatientId_ReturnsCorrectAppointments() throws Exception {
         // Arrange
         String patientId = "patient1";
-        Patient patient = new Patient(patientId, "Patient Name");
         List<Appointment> expectedAppointments = Arrays.asList(
-            new Appointment("appointment1", "confirmed", patient, "2024-01-20T10:00:00Z", "2024-01-20T10:30:00Z"),
-            new Appointment("appointment2", "confirmed", patient, "2024-01-21T11:00:00Z", "2024-01-21T11:30:00Z")
+            new Appointment("appointment1", "confirmed", "patient1", "2024-01-20T10:00:00Z", "2024-01-20T10:30:00Z"),
+            new Appointment("appointment2", "confirmed", "patient2", "2024-01-21T11:00:00Z", "2024-01-21T11:30:00Z")
         );
 
         // Stubbing the behavior of mock method getAppointmentsByPatientId
@@ -49,7 +50,7 @@ public class AppointmentServiceTest {
 
             assertEquals("Appointment IDs should match", expected.getId(), actual.getId());
             assertEquals("Appointment statuses should match", expected.getStatus(), actual.getStatus());
-            assertEquals("Patient IDs should match", expected.getSubject().getId(), actual.getSubject().getId());
+            assertEquals("Patient IDs should match", expected.getSubject(), actual.getSubject());
             assertEquals("Start times should match", expected.getStart(), actual.getStart());
             assertEquals("End times should match", expected.getEnd(), actual.getEnd());
         }

@@ -1,4 +1,4 @@
-package application;
+package application.service;
 
 import domain.Appointment;
 import infrastructure.AppointmentRepository;
