@@ -8,7 +8,6 @@ export class MockAppointmentRepository implements AppointmentRepository {
         return appointments.filter((appointment) => appointment.hasSubject(userId));
     }
     async getAppointments(): Promise<Appointment[]> {
-
         const patient1 = new Patient('user1', 'John Doe');
         const patient2 = new Patient('user2', 'Jane Doe');
 
@@ -31,7 +30,7 @@ export class MockAppointmentRepository implements AppointmentRepository {
             new Appointment('16', 'booked', patient2, '2023-07-04T13:00:00Z', '2023-07-04T13:30:00Z'),
             new Appointment('17', 'Cancelled', patient1, '2023-07-11T15:30:00Z', '2023-07-11T16:00:00Z'),
         ];
-        
+
         return appointments;
     }
 }
