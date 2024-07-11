@@ -65,28 +65,54 @@ This section illustrates the relationship between various activities and workflo
 
 ```mermaid
 graph TD;
-    subgraph AppointmentManagement
-        A1[Cancel Appointment]
-        A2[Create Appointment]
+    subgraph Temporal
+        subgraph Activities
+            style Activities fill:#f9f,stroke:#333,stroke-width:4px
+            subgraph AppointmentManagement
+                style AppointmentManagement fill:#ffcc00,stroke:#000,stroke-width:2px
+                A1[Cancel Appointment]
+                A2[Create Appointment]
+            end
+
+            subgraph Notifications
+                style Notifications fill:#ffcccc,stroke:#000,stroke-width:2px
+                A3[Send SMS Notification]
+                A4[Send Email Notification]
+            end
+        end
+
+        subgraph Workflows
+            style Workflows fill:#ccffcc,stroke:#000,stroke-width:2px
+            W1[Cancel Appointment Workflow]
+            W2[Schedule Appointment Workflow]
+        end
     end
 
-    subgraph Notifications
-        A3[Send SMS Notification]
-        A4[Send Email Notification]
+    subgraph AppointmentsService
+        style AppointmentsService fill:#cce5ff,stroke:#000,stroke-width:2px
+        DS1[Cancel Appointment API]
+        DS2[Create Appointment API]
     end
 
-    subgraph Workflows
-        W1[Cancel Appointment Workflow]
-        W2[Schedule Appointment Workflow]
+    subgraph NotificationsService
+        style NotificationsService fill:#e6ccff,stroke:#000,stroke-width:2px
+        DS3[SMS Notification API]
+        DS4[Email Notification API]
     end
-  
-    W1 -->|Use| A1
-    W1 -->|Use| A3
-    W1 -->|Use| A4
 
-    W2 -->|Use| A2
-    W2 -->|Use| A3
-    W2 -->|Use| A4
+    A1 -->|Calls| DS1
+    A2 -->|Calls| DS2
+    A3 -->|Calls| DS3
+    A4 -->|Calls| DS4
+
+    W1 -->|Uses| A1
+    W1 -->|Uses| A3
+    W1 -->|Uses| A4
+
+    W2 -->|Uses| A2
+    W2 -->|Uses| A3
+    W2 -->|Uses| A4
+
 ```
 ### Explanation
 #### Appointment Management Domain:
