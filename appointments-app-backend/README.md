@@ -127,6 +127,7 @@ Our project utilizes two different deployment approaches to manage the release p
 ### 1. Continuous Deployment to Dev and Staging
 This approach automatically deploys changes to the dev environment after a merge to the main branch. If the deployment and tests succeed, it subsequently deploys to the staging environment. This ensures that all changes are validated in a controlled manner before any manual intervention is required.
 
+
 #### Workflow Steps:
 
 - Triggered by a push to the main branch.
@@ -146,6 +147,8 @@ graph TD
     F -->|Yes| G[Deploy to Staging]
     F -->|No| H[Stop]
 ```
+
+Another workflow is triggered to push changes to production.
 
 ### 2. Manual Deployment to Production
 This approach includes a manual approval step before deploying to the production environment. After successful deployment to the staging environment, a manual approval request is created. Once approved, the changes are deployed to the production environment.
