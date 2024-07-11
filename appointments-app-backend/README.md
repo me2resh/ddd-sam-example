@@ -121,3 +121,55 @@ To visualize this diagram, you can use a Mermaid live editor or integrate it int
    - **Description**: ts-arch is a library for checking architecture conventions in TypeScript and JavaScript projects, allowing you to enforce architecture rules.
    - **Link**: [ts-arch GitHub Repository](https://github.com/ts-arch/ts-arch)
 
+## Deployment Approaches
+Our project utilizes two different deployment approaches to manage the release process across development (dev), staging, and production environments. Here is an overview of these approaches, along with diagrams to illustrate the workflows.
+
+### 1. Continuous Deployment to Dev and Staging
+This approach automatically deploys changes to the dev environment after a merge to the main branch. If the deployment and tests succeed, it subsequently deploys to the staging environment. This ensures that all changes are validated in a controlled manner before any manual intervention is required.
+
+#### Workflow Steps:
+
+- Triggered by a push to the main branch.
+- Validates the SAM template.
+- Builds the SAM application.
+- Runs unit tests.
+- Deploys to the dev environment.
+- Deploys to the staging environment if the dev deployment succeeds.
+
+```mermaid
+graph TD
+    A[Push to main branch] --> B[SAM Validate]
+    B --> C[SAM Build]
+    C --> D[Run Unit Tests]
+    D --> E[Deploy to Dev]
+    E --> F{Tests Success?}
+    F -->|Yes| G[Deploy to Staging]
+    F -->|No| H[Stop]
+```
+
+### 2. Manual Deployment to Production
+This approach includes a manual approval step before deploying to the production environment. After successful deployment to the staging environment, a manual approval request is created. Once approved, the changes are deployed to the production environment.
+
+#### Workflow Steps:
+
+- Triggered by a push to the main branch.
+- Deploys to dev and staging environments as described above.
+- Creates an approval request if there are changes to deploy.
+- Waits for manual approval.
+- Deploys to the production environment upon approval.
+
+```mermaid
+graph TD
+    A[Push to main branch] --> B[SAM Validate]
+    B --> C[SAM Build]
+    C --> D[Run Unit Tests]
+    D --> E[Deploy to Dev]
+    E --> F{Tests Success?}
+    F -->|Yes| G[Deploy to Staging]
+    F -->|No| H[Stop]
+    G --> I{Changes Present?}
+    I -->|Yes| J[Create Approval Request]
+    J --> K[Wait for Manual Approval]
+    K --> L[Deploy to Production]
+    I -->|No| M[Stop]
+```
