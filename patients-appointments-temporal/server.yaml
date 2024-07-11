@@ -1,0 +1,19 @@
+temporalGrpcAddress: localhost:7233
+
+port: 8080
+
+enableUi: true
+
+enableOpenApi: true
+
+defaultNamespace: default
+
+feedbackUrl: https://github.com/temporalio/ui/issues/new/choose
+
+notifyOnNewVersion: true
+
+refreshInterval: 1m
+
+showTemporalSystemNamespace: false
+
+disableWriteActions: false
