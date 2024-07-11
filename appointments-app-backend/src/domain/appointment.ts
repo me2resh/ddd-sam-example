@@ -10,6 +10,6 @@ export class Appointment {
     ) {}
 
     hasSubject(id: string): boolean {
-        return this.subject.id  === id;
+        return this.subject.id === id;
     }
 }

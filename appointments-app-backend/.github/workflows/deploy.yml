@@ -8,6 +8,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: ${{ steps.deploy.outputs.sam-application-url }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -27,5 +30,6 @@ jobs:
       - name: Build SAM application
         run: sam build --use-container
 
+      # This step will pause the workflow until a reviewer approves the deployment.
       - name: Deploy SAM application
-        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
+        run: sam deploy --confirm-changeset

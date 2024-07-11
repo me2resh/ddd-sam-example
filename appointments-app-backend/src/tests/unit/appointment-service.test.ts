@@ -16,9 +16,13 @@ describe('AppointmentService', () => {
     ];
 
     const getAppointmentsSpy = jest.spyOn(appointmentRepository, 'getAppointments');
+    const getAppointmentsByPatientIdSpy = jest.spyOn(appointmentRepository, 'getAppointmentsByPatientId');
 
     beforeEach(() => {
         getAppointmentsSpy.mockImplementation(async () => appointments);
+        getAppointmentsByPatientIdSpy.mockImplementation(async (patientId: string) => {
+            return appointments.filter((appointment) => appointment.hasSubject(patientId));
+        });
     });
 
     it('Should return appointments if they exist for a patient ID: user1', async () => {
@@ -41,5 +45,24 @@ describe('AppointmentService', () => {
         expect(result.length).toBe(0);
     });
 
-    afterAll(() => getAppointmentsSpy.mockRestore());
+    it('Should log and throw an error if fetching appointments fails', async () => {
+        getAppointmentsByPatientIdSpy.mockImplementationOnce(() => {
+            throw new Error('Test error');
+        });
+
+        const userId = 'user1';
+        await expect(appointmentService.getAppointmentsByPatientId(userId)).rejects.toThrow('Test error');
+    });
+
+    it('Should handle null or undefined patient ID', async () => {
+        const invalidUserId: unknown = undefined;
+        await expect(appointmentService.getAppointmentsByPatientId(invalidUserId as string)).rejects.toThrow(
+            'Invalid patient ID',
+        );
+    });
+
+    afterAll(() => {
+        getAppointmentsSpy.mockRestore();
+        getAppointmentsByPatientIdSpy.mockRestore();
+    });
 });

@@ -5,6 +5,16 @@ export class AppointmentService {
     constructor(private appointmentRepository: AppointmentRepository) {}
 
     async getAppointmentsByPatientId(patientId: string): Promise<Appointment[]> {
-        return this.appointmentRepository.getAppointmentsByPatientId(patientId);
+        if (!patientId) {
+            const error = new Error('Invalid patient ID');
+            throw error;
+        }
+
+        try {
+            const appointments = await this.appointmentRepository.getAppointmentsByPatientId(patientId);
+            return appointments;
+        } catch (err) {
+            throw err; // Re-throw the error to be handled by the caller
+        }
     }
 }

@@ -4,11 +4,17 @@ import { AppointmentRepository } from './appointment-repository';
 
 export class MockAppointmentRepository implements AppointmentRepository {
     async getAppointmentsByPatientId(userId: string): Promise<Appointment[]> {
-        const appointments = await this.getAppointments();
-        return appointments.filter((appointment) => appointment.hasSubject(userId));
+        try {
+            const appointments = await this.getAppointments();
+            const userAppointments = appointments.filter((appointment) => appointment.hasSubject(userId));
+            return userAppointments;
+        } catch (err) {
+            throw err; // Re-throw the error to be handled by the caller
+        }
     }
-    async getAppointments(): Promise<Appointment[]> {
 
+    async getAppointments(): Promise<Appointment[]> {
+        // Mock data here...
         const patient1 = new Patient('user1', 'John Doe');
         const patient2 = new Patient('user2', 'Jane Doe');
 
@@ -31,7 +37,7 @@ export class MockAppointmentRepository implements AppointmentRepository {
             new Appointment('16', 'booked', patient2, '2023-07-04T13:00:00Z', '2023-07-04T13:30:00Z'),
             new Appointment('17', 'Cancelled', patient1, '2023-07-11T15:30:00Z', '2023-07-11T16:00:00Z'),
         ];
-        
+
         return appointments;
     }
 }
