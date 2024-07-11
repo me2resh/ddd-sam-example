@@ -103,12 +103,11 @@ To visualize this diagram, you can use a Mermaid live editor or integrate it int
 ### Tools & Techniques
 
 #### 1. **Domain-Driven Design (DDD)**
-   - **Description**: DDD is an approach to software development that emphasizes collaboration between technical and domain experts to iteratively refine a conceptual model that addresses complex domain logic.
+   - **Description**: Domain-Driven Design (DDD) emphasizes creating a domain model based on the reality of business use cases. It involves defining independent problem areas as Bounded Contexts, which align with microservices. DDD promotes the use of a ubiquitous language to describe problems and suggests technical concepts like domain entities, value objects, and aggregates.
+
+    A key aspect of DDD is the separation of layers within a microservice. This separation helps manage complexity by clearly defining responsibilities and ensuring that each layer focuses on specific concerns
    - **Link**: [Domain-Driven Design: Microservices Patterns](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/ddd-oriented-microservice)
 
-#### 2. **TypeScript**
-   - **Description**: TypeScript is a statically typed superset of JavaScript that compiles to plain JavaScript, allowing for better tooling and error-checking.
-   - **Link**: [TypeScript Official Documentation](https://www.typescriptlang.org/)
 
 #### 3. **AWS Serverless Application Model (SAM)**
    - **Description**: AWS SAM is a framework for building serverless applications. It provides a simplified way of defining and deploying AWS Lambda functions, API Gateway, DynamoDB, and more.
@@ -118,27 +117,7 @@ To visualize this diagram, you can use a Mermaid live editor or integrate it int
      - [SAM Policy Templates](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html)
      - [AWS SAM Patterns](https://serverlessland.com/patterns?framework=SAM)
 
-#### 4. **Jest**
-   - **Description**: Jest is a delightful JavaScript testing framework with a focus on simplicity. It works out of the box for most JavaScript projects.
-   - **Link**: [Jest Official Documentation](https://jestjs.io/)
-
-#### 5. **ESLint**
-   - **Description**: ESLint is a static code analysis tool for identifying and fixing problems in JavaScript code, with support for TypeScript.
-   - **Link**: [ESLint Official Documentation](https://eslint.org/)
-
-#### 6. **Prettier**
-   - **Description**: Prettier is an opinionated code formatter that enforces a consistent style by parsing code and reprinting it with its own rules.
-   - **Link**: [Prettier Official Documentation](https://prettier.io/)
-
 #### 7. **ts-arch**
    - **Description**: ts-arch is a library for checking architecture conventions in TypeScript and JavaScript projects, allowing you to enforce architecture rules.
    - **Link**: [ts-arch GitHub Repository](https://github.com/ts-arch/ts-arch)
 
-
-### Additional Resources
-
-- **Node.js**: JavaScript runtime built on Chrome's V8 JavaScript engine.
-  - [Node.js Official Documentation](https://nodejs.org/en/docs/)
-
-- **Docker**: A platform for developing, shipping, and running applications in containers.
-  - [Docker Official Documentation](https://docs.docker.com/)
