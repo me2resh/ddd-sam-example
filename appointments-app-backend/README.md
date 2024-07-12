@@ -2,6 +2,25 @@
 
 This project is a simple REST API application for retrieving patient appointments. The application is built using AWS SAM (Serverless Application Model) and TypeScript.
 
+## Index
+
+1. [Application Directory Structure](#application-directory-structure)
+2. [Prerequisites](#prerequisites)
+3. [Setup Instructions](#setup-instructions)
+4. [Run Tests](#run-tests)
+5. [Running SAM Locally](#running-sam-locally)
+6. [Invoking APIs for Each User](#invoking-apis-for-each-user)
+7. [Deploy to the Cloud](#deploy-to-the-cloud)
+8. [Software Architecture Diagram](#software-architecture-diagram)
+9. [Tools & Techniques](#tools--techniques)
+   1. [Domain-Driven Design (DDD)](#1-domain-driven-design-ddd)
+   2. [AWS Serverless Application Model (SAM)](#3-aws-serverless-application-model-sam)
+   3. [ts-arch](#7-ts-arch)
+10. [Deployment Approaches](#deployment-approaches)
+    1. [Continuous Deployment to Dev and Staging](#1-continuous-deployment-to-dev-and-staging)
+    2. [Manual Deployment to Production](#2-manual-deployment-to-production)
+
+
 ## Application Directory Structure
 
 The source code for the application resides in the `src` directory:

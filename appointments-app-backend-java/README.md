@@ -2,6 +2,17 @@
 
 This project is a simple REST API application for retrieving patient appointments. The application is built using AWS SAM (Serverless Application Model) and Java.
 
+## Index
+
+1. [Application Directory Structure](#application-directory-structure)
+2. [Prerequisites](#prerequisites)
+3. [Setup Instructions](#setup-instructions)
+4. [Run Tests](#run-tests)
+5. [Running SAM Locally](#running-sam-locally)
+6. [Invoking APIs for Each User](#invoking-apis-for-each-user)
+7. [Deploy to the Cloud](#deploy-to-the-cloud)
+8. [Software Architecture Diagram](#software-architecture-diagram)
+
 ## Application Directory Structure
 
 The source code for the application resides in the `src/main/java` directory:
