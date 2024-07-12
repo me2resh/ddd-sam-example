@@ -6,12 +6,8 @@ This repository hosts a comprehensive solution for managing patient appointments
 
 1. [Project Structure](#project-structure)
 2. [Descriptions](#descriptions)
-3. [Prerequisites](#prerequisites)
-4. [Setup Instructions](#setup-instructions)
-5. [Running the Project](#running-the-project)
-6. [Running Tests](#running-tests)
-7. [Deployment](#deployment)
-8. [Tools & Techniques](#tools--techniques)
+3. [Running the Project](#running-the-project)
+
 
 ## Project Structure
 
