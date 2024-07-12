@@ -2,6 +2,19 @@
 
 This repository hosts the Temporal workflows used in the orchestration of services and activities related to the Patients Appointments API. It is set up as a shared monorepo to allow full flexibility in reusing activities across workflows.
 
+1. [Code Organization](#code-organization)
+2. [Building and Running the Project](#building-and-running-the-project)
+   1. [Prerequisites](#prerequisites)
+   2. [Initial Setup](#initial-setup)
+   3. [Running the Project](#running-the-project)
+3. [Workflow and Activity Diagram](#workflow-and-activity-diagram)
+4. [Explanation](#explanation)
+   1. [Appointment Management Domain](#appointment-management-domain)
+   2. [Notifications Domain](#notifications-domain)
+   3. [Workflows](#workflows)
+      1. [Cancel Appointment Workflow](#cancel-appointment-workflow)
+      2. [Schedule Appointment Workflow](#schedule-appointment-workflow)
+
 ## Code Organization
 
 ```plaintext
