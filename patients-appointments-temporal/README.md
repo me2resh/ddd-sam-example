@@ -127,6 +127,37 @@ graph TD;
     W2 -->|Uses| A4
 
 ```
+
+Possible implementation withot Temporal
+```mermaid
+graph TD;
+
+    subgraph AppointmentsService
+        style AppointmentsService fill:#cce5ff,stroke:#000,stroke-width:2px
+        DS1[Create Appointment API]
+        DS2[Cancel Appointment API]
+    end
+
+    subgraph NotificationsService
+        style NotificationsService fill:#e6ccff,stroke:#000,stroke-width:2px
+        
+        Q1["SMS Notification Queue"]
+        style Q1 fill:#99ccff,stroke:#000,stroke-width:2px
+        
+        Q2["Email Notification Queue"]
+        style Q2 fill:#99ccff,stroke:#000,stroke-width:2px
+
+        DS3[SMS Notification API]
+        DS4[Email Notification API]
+    end
+
+    DS1 -->|Send SMS| Q1
+    DS1 -->|Send Email| Q2
+    DS2 -->|Send SMS| Q1
+    DS2 -->|Send Email| Q2
+    Q1 -->|Triggers| DS3
+    Q2 -->|Triggers| DS4
+```
 ### Explanation
 #### Appointment Management Domain:
 
