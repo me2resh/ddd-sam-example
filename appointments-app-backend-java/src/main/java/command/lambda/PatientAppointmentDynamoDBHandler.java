@@ -16,7 +16,17 @@ import java.util.logging.Logger;
 public class PatientAppointmentDynamoDBHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
     private static final Logger LOGGER = Logger.getLogger(PatientAppointmentDynamoDBHandler.class.getName());
 
-    private final DynamoDBRepository repository = new DynamoDBRepository();
+    private final DynamoDBRepository repository;
+
+    // Constructor for dependency injection (used in tests)
+    public PatientAppointmentDynamoDBHandler(DynamoDBRepository repository) {
+        this.repository = repository;
+    }
+
+    // Default constructor for AWS Lambda (maintains backward compatibility)
+    public PatientAppointmentDynamoDBHandler() {
+        this.repository = new DynamoDBRepository();
+    }
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent event, Context context) {

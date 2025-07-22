@@ -1,7 +1,6 @@
 package application;
 
 import domain.Appointment;
-import domain.Patient;
 import infrastructure.AppointmentRepository;
 import org.junit.Before;
 import org.junit.Test;

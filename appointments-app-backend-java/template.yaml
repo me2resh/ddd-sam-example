@@ -10,17 +10,14 @@ Globals:
   Function:
     Timeout: 20
     MemorySize: 512
-
     Tracing: Active
     # You can add LoggingConfig parameters such as the Logformat, Log Group, and SystemLogLevel or ApplicationLogLevel. Learn more here https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html#sam-function-loggingconfig.
     LoggingConfig:
       LogFormat: JSON
   Api:
     TracingEnabled: true
-Resources:
 
 Resources:
-
   PatientsDynamoDBTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -35,32 +32,31 @@ Resources:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
 
-AppointmentsDynamoDBTable:
-  Type: AWS::DynamoDB::Table
-  Properties:
-    TableName: Appointments
-    AttributeDefinitions:
-      - AttributeName: appointmentId
-        AttributeType: S
-      - AttributeName: patientId  # This is assuming you will add patientId as a top-level attribute
-        AttributeType: S
-    KeySchema:
-      - AttributeName: appointmentId
-        KeyType: HASH
-    GlobalSecondaryIndexes:  # Add this section
-      - IndexName: patientId-index
-        KeySchema:
-          - AttributeName: patientId
-            KeyType: HASH
-        Projection:
-          ProjectionType: ALL
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-    ProvisionedThroughput:
-      ReadCapacityUnits: 5
-      WriteCapacityUnits: 5
-
+  AppointmentsDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Appointments
+      AttributeDefinitions:
+        - AttributeName: appointmentId
+          AttributeType: S
+        - AttributeName: patientId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: appointmentId
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: patientId-index
+          KeySchema:
+            - AttributeName: patientId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
 
   PatientAppointmentDynamoDBFunction:
     Type: AWS::Serverless::Function
@@ -72,10 +68,10 @@ AppointmentsDynamoDBTable:
         - x86_64
       MemorySize: 2048
       Events:
-        GetAppointments:
+        Api:
           Type: Api
           Properties:
-            Path: /dynamodb/patients/{patientId}/appointments
+            Path: /patients/{patientId}/appointments
             Method: get
       Policies:
         - DynamoDBCrudPolicy:
@@ -83,38 +79,6 @@ AppointmentsDynamoDBTable:
         - DynamoDBCrudPolicy:
             TableName: !Ref PatientsDynamoDBTable
 
-  PatientAppointmentMockFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./  # Assuming your build artifacts are within the HelloWorldFunction directory
-      Handler: command.lambda.PatientAppointmentMockHandler::handleRequest
-      Runtime: java21  # Make sure to use the Java runtime version that corresponds to your development environment
-      Architectures:
-        - x86_64
-      MemorySize: 2048
-      Environment:
-        Variables:
-          PARAM1: VALUE
-      Events:
-        PatientAppointmentApi:
-          Type: Api
-          Properties:
-            Path: /mock/patients/{patientId}/appointments
-            Method: get
-
-  ApplicationResourceGroup:
-    Type: AWS::ResourceGroups::Group
-    Properties:
-      Name:
-        Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
-      ResourceQuery:
-        Type: CLOUDFORMATION_STACK_1_0
-  ApplicationInsightsMonitoring:
-    Type: AWS::ApplicationInsights::Application
-    Properties:
-      ResourceGroupName:
-        Ref: ApplicationResourceGroup
-      AutoConfigurationEnabled: 'true'
 Outputs:
   PatientAppointmentApi:
     Description: "API Gateway endpoint URL for Prod stage for Patient Appointment function"
